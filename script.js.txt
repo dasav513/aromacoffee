@@ -1,0 +1,66 @@
+/* Сайт розроблено студенткою Огнянова Дар'я, група 13
+   Логика переключения вкладок и калькулятор стоимости
+*/
+
+// Массив данных (меню) [cite: 58]
+const menuItems = [
+    { id: 1, name: "Еспресо", price: 30 },
+    { id: 2, name: "Американо", price: 35 },
+    { id: 3, name: "Капучино", price: 45 },
+    { id: 4, name: "Лате", price: 50 },
+    { id: 5, name: "Чізкейк", price: 80 },
+    { id: 6, name: "Круасан", price: 40 }
+];
+
+// Функция отображения меню при загрузке страницы
+function renderMenu() {
+    const container = document.getElementById('menu-list');
+    
+    menuItems.forEach(item => {
+        // Создаем карточку товара
+        const card = document.createElement('div');
+        card.className = 'card';
+        
+        card.innerHTML = `
+            <h3>${item.name}</h3>
+            <p class="price">${item.price} грн</p>
+            <label>Кількість:</label>
+            <input type="number" min="0" value="0" 
+                   onchange="calculateTotal()" 
+                   data-price="${item.price}">
+        `;
+        
+        container.appendChild(card);
+    });
+}
+
+// Функция подсчета общей суммы [cite: 23]
+function calculateTotal() {
+    const inputs = document.querySelectorAll('input[type="number"]');
+    let total = 0;
+
+    inputs.forEach(input => {
+        const quantity = parseInt(input.value);
+        const price = parseInt(input.getAttribute('data-price'));
+        
+        if (quantity > 0) {
+            total += quantity * price;
+        }
+    });
+
+    document.getElementById('total-price').innerText = total;
+}
+
+// Простая навигация (SPA) без перезагрузки [cite: 64]
+function showSection(sectionId) {
+    // Скрываем все секции
+    document.getElementById('home').style.display = 'none';
+    document.getElementById('menu').style.display = 'none';
+    document.getElementById('contacts').style.display = 'none';
+
+    // Показываем нужную
+    document.getElementById(sectionId).style.display = 'block';
+}
+
+// Запускаем рендер меню после загрузки страницы
+document.addEventListener('DOMContentLoaded', renderMenu);
