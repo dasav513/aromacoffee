@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee House - Практичне завдання</title>
+    
+    <style>
+        /* Основные настройки */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #faf3e0; /* Светло-кремовый фон */
+            color: #4a4a4a;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Навигация */
+        nav {
+            background-color: #6f4e37; /* Кофейный цвет */
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 15px;
+            font-weight: bold;
+            cursor: pointer;
+            padding-bottom: 5px;
+        }
+
+        nav a:hover {
+            border-bottom: 2px solid #deb887;
+        }
+
+        /* Секции */
+        section {
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+            flex: 1; /* Чтобы футер был внизу */
+        }
+
+        /* Заголовки */
+        h1, h2 {
+            color: #6f4e37;
+            text-align: center;
+        }
+
+        /* Главная страница */
+        .hero {
+            text-align: center;
+            padding: 50px 0;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn {
+            background-color: #d2691e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #a0522d;
+        }
+
+        /* Сетка товаров */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        /* Карточка товара */
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .price {
+            font-size: 18px;
+            color: #d2691e;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 50px;
+            padding: 5px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* Итоговая сумма */
+        .total-block {
+            background-color: #6f4e37;
+            color: white;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 8px;
+            text-align: right;
+            font-size: 20px;
+        }
+
+        /* Контакты */
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Футер */
+        footer {
+            background-color: #3e2723;
+            color: #aaa;
+            text-align: center;
+            padding: 15px;
+            margin-top: auto;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a onclick="showPage('home')">Головна</a>
+        <a onclick="showPage('menu')">Меню та Замовлення</a>
+        <a onclick="showPage('contacts')">Контакти</a>
+    </nav>
+
+    <section id="home">
+        <div class="hero">
+            <h1>Вітаємо у "Student Coffee"</h1>
+            <p>Найкраща кава для успішного складання сесії!</p>
+            <button class="btn" onclick="showPage('menu')">Зробити замовлення</button>
+        </div>
+    </section>
+
+    <section id="menu" style="display: none;">
+        <h2>Наше Меню</h2>
+        <div class="menu-grid" id="menu-container">
+            </div>
+
+        <div class="total-block">
+            Сума замовлення: <span id="total-sum">0</span> грн
+            <br>
+            <button class="btn" style="background-color: white; color: #6f4e37;" onclick="alert('Замовлення прийнято!')">Оформити</button>
+        </div>
+    </section>
+
+    <section id="contacts" style="display: none;">
+        <h2>Зв'яжіться з нами</h2>
+        <div class="contact-form">
+            <p>Адреса: вул. Університетська, 1</p>
+            <input type="text" placeholder="Ваше ім'я">
+            <input type="email" placeholder="Email">
+            <textarea rows="4" placeholder="Повідомлення"></textarea>
+            <button class="btn" onclick="alert('Повідомлення надіслано!')">Надіслати</button>
+        </div>
+    </section>
+
+    <footer>
+        Сайт розробила: Огнянова Дар'я  | Група: 13 | Факультет: ФЕМП
+    </footer>
+
+    <script>
+        // 1. Данные о товарах (Массив) [cite: 58]
+        const products = [
+            { name: "Еспресо", price: 25 },
+            { name: "Американо", price: 30 },
+            { name: "Капучино", price: 40 },
+            { name: "Лате", price: 45 },
+            { name: "Какао", price: 35 },
+            { name: "Чай зелений", price: 20 },
+            { name: "Круасан", price: 50 },
+            { name: "Мафін", price: 40 }
+        ];
+
+        // 2. Функция создания товаров на странице
+        function renderProducts() {
+            const container = document.getElementById('menu-container');
+            
+            products.forEach((item, index) => {
+                // Создаем HTML для каждого товара
+                const productHTML = `
+                    <div class="card">
+                        <h3>${item.name}</h3>
+                        <p class="price">${item.price} грн</p>
+                        <label>Кількість:</label><br>
+                        <input type="number" min="0" value="0" 
+                               oninput="calculateTotal()" 
+                               id="prod-${index}" 
+                               data-price="${item.price}">
+                    </div>
+                `;
+                container.innerHTML += productHTML;
+            });
+        }
+
+        // 3. Функция подсчета суммы [cite: 23, 46]
+        function calculateTotal() {
+            let total = 0;
+            const inputs = document.querySelectorAll('input[type="number"]');
+
+            inputs.forEach(input => {
+                const price = parseInt(input.getAttribute('data-price'));
+                const quantity = parseInt(input.value);
+                
+                if (quantity > 0) {
+                    total += price * quantity;
+                }
+            });
+
+            document.getElementById('total-sum').innerText = total;
+        }
+
+        // 4. Функция переключения страниц (Single Page Application) [cite: 40, 64]
+        function showPage(pageId) {
+            // Скрываем все секции
+            document.getElementById('home').style.display = 'none';
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('contacts').style.display = 'none';
+            
+            // Показываем нужную
+            document.getElementById(pageId).style.display = 'block';
+        }
+
+        // Запуск при загрузке страницы
+        renderProducts();
+    </script>
+</body>
+</html>
